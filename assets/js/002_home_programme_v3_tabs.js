@@ -56,7 +56,7 @@ function initCsiProgrammeV3Carousels(scope) {
     nextButton.textContent = '>';
 
     controls.append(previousButton, nextButton);
-    list.parentNode.insertBefore(controls, list);
+    list.parentNode.insertBefore(controls, list.nextSibling);
     list.dataset.csiProgrammeV3CarouselReady = 'true';
     list.setAttribute('tabindex', '0');
 

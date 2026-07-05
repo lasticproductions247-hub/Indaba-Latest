@@ -55,22 +55,24 @@ function csiKeynoteSlide() {
         isAnimating = true;
         const cur = slides[current];
         const next = slides[nextIndex];
-        const exitClass = direction === 'prev' ? 'kn-slide-exit-reverse' : 'kn-slide-exit';
         resetProgress();
-        cur.classList.remove('kn-slide-active');
-        cur.classList.add(exitClass);
         imgs.forEach(function(img) {
             img.style.opacity = img.getAttribute('data-slide-img') === String(nextIndex) ? '1' : '0';
         });
+        cur.style.transition = 'opacity .3s ease';
+        cur.style.opacity = '0';
         setTimeout(function() {
-            slides.forEach(function(slide, index) {
-                slide.style.display = index === nextIndex ? '' : 'none';
-                slide.classList.remove('kn-slide-active', 'kn-slide-exit', 'kn-slide-exit-reverse');
-            });
+            cur.style.display = 'none';
+            cur.classList.remove('kn-slide-active');
+            cur.style.transition = '';
+            cur.style.opacity = '';
+            next.style.display = '';
+            next.style.transform = 'none';
+            next.style.opacity = '1';
             next.classList.add('kn-slide-active');
             current = nextIndex;
             isAnimating = false;
-        }, 650);
+        }, 320);
     }
 
     function goNext() {

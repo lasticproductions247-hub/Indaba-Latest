@@ -1739,12 +1739,11 @@ summary:focus-visible {
   }
 
   .csi-principal-keynote-artwork .csi-keynote-slide-nav {
-    display: inline-flex !important;
-    justify-content: flex-start !important;
+    display: flex !important;
+    justify-content: flex-end !important;
     align-items: center !important;
     gap: 8px !important;
-    flex: 0 0 auto !important;
-    width: auto !important;
+    width: 100% !important;
     margin-left: 0 !important;
     margin-top: 0 !important;
   }
@@ -1766,3 +1765,13 @@ summary:focus-visible {
     height: 36px !important;
   }
 }
+
+/* Keynote arrows spacing from content above */
+.csi-principal-keynote-artwork .csi-keynote-slide-nav {
+  margin-top: 18px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+
