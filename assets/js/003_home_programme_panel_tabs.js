@@ -15,7 +15,7 @@ function csiKeynoteSlide() {
     let autoTimer;
     const total = slides.length;
     const duration = 5500;
-    const speakerNames = ['Thabo Mbeki', 'Dr Geraldine Fraser-Moleketi', 'Dr Mogamad GamoefEbrajo'];
+    const speakerNames = ['Dr Geraldine Fraser-Moleketi', 'Dr Mogamad GamoefEbrajo'];
 
     function resetProgress() {
         fill.style.transition = 'none';
