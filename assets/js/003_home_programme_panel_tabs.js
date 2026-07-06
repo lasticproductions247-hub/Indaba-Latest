@@ -30,13 +30,13 @@ function csiKeynoteSlide() {
         clearInterval(countdownTimer);
         countdown.style.display = 'none';
     }
-    
+
     function startCountdown(nextIndex) {
         hideCountdown();
         countdown.style.display = 'flex';
         countdownName.textContent = speakerNames[nextIndex];
         countdownNumber.textContent = '3';
-        
+
         let count = 3;
         countdownTimer = setInterval(function() {
             count--;
@@ -105,7 +105,7 @@ function csiKeynoteSlide() {
             restartAutoTimer();
         });
     });
-    
+
     autoTimer = setInterval(function() {
         startCountdown((current + 1) % total);
     }, duration + 650);

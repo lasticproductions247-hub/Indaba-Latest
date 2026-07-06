@@ -201,13 +201,13 @@
         }
 
         @keyframes fadeInUp {
-            from { 
-                opacity: 0; 
-                transform: translateY(20px); 
+            from {
+                opacity: 0;
+                transform: translateY(20px);
             }
-            to { 
-                opacity: 1; 
-                transform: translateY(0); 
+            to {
+                opacity: 1;
+                transform: translateY(0);
             }
         }
 
@@ -340,6 +340,26 @@
             color: #6c757d;
             min-width: 120px;
             font-size: 12px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .time-badge {
+            font-weight: 600;
+            color: #1e3c72;
+            font-size: 12px;
+            background: #e3f2fd;
+            padding: 4px 8px;
+            border-radius: 4px;
+            display: inline-block;
+            white-space: nowrap;
+        }
+
+        .room-name {
+            font-weight: 600;
+            color: #495057;
+            font-size: 13px;
         }
 
         .session-title {

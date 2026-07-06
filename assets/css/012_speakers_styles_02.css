@@ -376,6 +376,19 @@ summary:focus-visible {
   overflow: hidden;
 }
 
+#page-csi-awards-speakers .csi-speaker-preview-media {
+  aspect-ratio: 4 / 5;
+  height: auto !important;
+  min-height: 0 !important;
+  max-height: none !important;
+}
+
+#page-csi-awards-speakers .csi-speaker-preview-media img {
+  height: 100% !important;
+  object-fit: cover !important;
+  object-position: center 18% !important;
+}
+
 #page-csi-awards-speakers .csi-speaker-preview-media,
 #page-csi-awards-speakers .csi-speaker-preview-media img,
 #page-csi-awards-speakers .csi-speaker-fallback {
