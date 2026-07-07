@@ -1,114 +1,95 @@
 // JavaScript extracted from inline <script> block 003 in the 'home' template/context. Related area: programme_panel_tabs.
 
 function csiKeynoteSlide() {
-    const fill = document.getElementById('knProgressFill');
-    const countdown = document.getElementById('knCountdown');
-    const countdownNumber = document.getElementById('knCountdownNumber');
-    const countdownName = document.getElementById('knNextName');
-    const slides = document.querySelectorAll('.kn-slide');
-    const imgs = document.querySelectorAll('[data-slide-img]');
-    const navButtons = document.querySelectorAll('[data-keynote-nav]');
+    var fill = document.getElementById('knProgressFill');
+    var nextLabel = document.getElementById('knNextLabel');
+    var timerEl = document.getElementById('knTimer');
+    var slides = document.querySelectorAll('.kn-slide');
+    var imgs = document.querySelectorAll('[data-slide-img]');
+    var navButtons = document.querySelectorAll('[data-keynote-nav]');
     if (!fill || !slides.length) return;
-    let current = 0;
-    let isAnimating = false;
-    let countdownTimer;
-    let autoTimer;
-    const total = slides.length;
-    const duration = 5500;
-    const speakerNames = ['Dr Geraldine Fraser-Moleketi', 'Dr Mogamad GamoefEbrajo'];
+    var slideNames = ['Dr Geraldine Fraser-Moleketi', 'Dr Mogamad GamoefEbrajo'];
+    var tickTimer;
+    var secondsLeft = 6;
+    var current = 0;
+    var animating = false;
+    var timer;
+    var total = slides.length;
+    var interval = 6000;
 
-    function resetProgress() {
-        fill.style.transition = 'none';
-        fill.style.width = '0%';
-        setTimeout(function() {
-            fill.style.transition = 'width ' + (duration/1000) + 's linear';
-            fill.style.width = '100%';
-        }, 50);
-    }
+    function stopTick() { clearInterval(tickTimer); }
 
-    function hideCountdown() {
-        clearInterval(countdownTimer);
-        countdown.style.display = 'none';
-    }
-
-    function startCountdown(nextIndex) {
-        hideCountdown();
-        countdown.style.display = 'flex';
-        countdownName.textContent = speakerNames[nextIndex];
-        countdownNumber.textContent = '3';
-
-        let count = 3;
-        countdownTimer = setInterval(function() {
-            count--;
-            if (count > 0) {
-                countdownNumber.textContent = count;
-            } else {
-                clearInterval(countdownTimer);
-                countdown.style.display = 'none';
-                showSlide(nextIndex, 'next');
-            }
+    function startTick() {
+        secondsLeft = Math.round(interval / 1000);
+        if (timerEl) timerEl.textContent = secondsLeft + 's';
+        stopTick();
+        tickTimer = setInterval(function() {
+            secondsLeft--;
+            if (secondsLeft < 0) secondsLeft = 0;
+            if (timerEl) timerEl.textContent = secondsLeft + 's';
         }, 1000);
     }
 
-    function showSlide(nextIndex, direction) {
-        if (isAnimating || nextIndex === current) return;
-        isAnimating = true;
-        const cur = slides[current];
-        const next = slides[nextIndex];
-        resetProgress();
+    function showSlide(index) {
+        if (animating || index === current) return;
+        animating = true;
+        var prev = current;
+        current = index;
+        var curEl = slides[prev];
+        var nextEl = slides[current];
+        if (nextLabel) nextLabel.textContent = slideNames[(current + 1) % total];
+        var counter = document.getElementById('knCounter');
+        if (counter) counter.textContent = String(current + 1).padStart(2, '0') + ' / ' + String(total).padStart(2, '0');
         imgs.forEach(function(img) {
-            img.style.opacity = img.getAttribute('data-slide-img') === String(nextIndex) ? '1' : '0';
+            img.style.opacity = img.getAttribute('data-slide-img') === String(current) ? '1' : '0';
         });
-        cur.style.transition = 'opacity .3s ease';
-        cur.style.opacity = '0';
+        curEl.style.transition = 'opacity .3s ease';
+        curEl.style.opacity = '0';
+        fill.style.transition = 'none';
+        fill.style.width = '0%';
         setTimeout(function() {
-            cur.style.display = 'none';
-            cur.classList.remove('kn-slide-active');
-            cur.style.transition = '';
-            cur.style.opacity = '';
-            next.style.display = '';
-            next.style.transform = 'none';
-            next.style.opacity = '1';
-            next.classList.add('kn-slide-active');
-            current = nextIndex;
-            isAnimating = false;
+            fill.style.transition = 'width ' + (interval/1000) + 's linear';
+            fill.style.width = '100%';
+        }, 20);
+        setTimeout(function() {
+            curEl.style.display = 'none';
+            curEl.classList.remove('kn-slide-active');
+            nextEl.style.display = '';
+            nextEl.style.opacity = '1';
+            nextEl.style.transform = 'none';
+            nextEl.classList.add('kn-slide-active');
+            animating = false;
+            startTick();
         }, 320);
     }
 
-    function goNext() {
-        showSlide((current + 1) % total, 'next');
-    }
-
-    function goPrev() {
-        showSlide((current - 1 + total) % total, 'prev');
-    }
-
-    function restartAutoTimer() {
-        clearInterval(autoTimer);
-        autoTimer = setInterval(function() {
-            startCountdown((current + 1) % total);
-        }, duration + 650);
-    }
-
-    slides.forEach(function(slide, index) {
-        if (index !== current) slide.style.display = 'none';
+    if (nextLabel) nextLabel.textContent = slideNames[1];
+    var counterInit = document.getElementById('knCounter');
+    if (counterInit) counterInit.textContent = '01 / ' + String(total).padStart(2, '0');
+    imgs.forEach(function(img) {
+        img.style.opacity = img.getAttribute('data-slide-img') === String(current) ? '1' : '0';
     });
-    resetProgress();
-    navButtons.forEach(function(button) {
-        button.addEventListener('click', function() {
-            hideCountdown();
-            if (button.getAttribute('data-keynote-nav') === 'prev') {
-                goPrev();
-            } else {
-                goNext();
-            }
-            restartAutoTimer();
+    slides.forEach(function(s, i) {
+        if (i !== current) s.style.display = 'none';
+    });
+    setTimeout(function() {
+        fill.style.transition = 'width ' + (interval/1000) + 's linear';
+        fill.style.width = '100%';
+    }, 50);
+    navButtons.forEach(function(btn) {
+        btn.addEventListener('click', function() {
+            clearInterval(timer);
+            var dir = btn.getAttribute('data-keynote-nav');
+            var next = dir === 'prev' ? (current - 1 + total) % total : (current + 1) % total;
+            showSlide(next);
+            timer = setInterval(function() {
+                showSlide((current + 1) % total);
+            }, interval);
         });
     });
-
-    autoTimer = setInterval(function() {
-        startCountdown((current + 1) % total);
-    }, duration + 650);
+    timer = setInterval(function() {
+        showSlide((current + 1) % total);
+    }, interval);
 }
 document.addEventListener('DOMContentLoaded', csiKeynoteSlide);
 
