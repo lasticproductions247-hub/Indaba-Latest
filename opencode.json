@@ -1,0 +1,14 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "mcp": {
+    "novamira-csiindaba-africa": {
+      "type": "local",
+      "command": ["npx", "-y", "@automattic/mcp-wordpress-remote@latest"],
+      "env": {
+        "WP_API_URL": "https://csiindaba.africa/wp-json/mcp/novamira",
+        "WP_API_USERNAME": "Test",
+        "WP_API_PASSWORD": "4sUHqFcX8GWnY8wNK2AkvcPB"
+      }
+    }
+  }
+}
